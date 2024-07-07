@@ -20,7 +20,7 @@
 <a href="https://github.com/2KAbhishek/dexe/pulse">
 <img alt="Last Updated" src="https://img.shields.io/github/last-commit/2kabhishek/dexe?style=flat&color=e06c75&label="> </a>
 
-<h3>Publish CLI Tools 🐚✨</h3>
+<h3>The exe launcher 🐚🚀</h3>
 
 <figure>
   <img src="images/screenshot.png" alt="dexe in action">
@@ -30,60 +30,86 @@
 
 </div>
 
-dexe is a `<utility/tool>` that allows `<target_audience>` to `<action>`.
+dexe, pronounced `the E X E or dexy` is a \*Nix CLI launcher that helps you quickly run shell executables.
 
 ## ✨ Features
 
-- Comes with a ready to go shell template
-- Quick documentation with README template
-- Works with [mkrepo](https://github.com/2kabhishek/mkrepo)
+- List all executables in yqur PATH
+- Glance over help info for any available executable
+- Easily integrates with neovim, shell, tmux and other tools
 
 ## ⚡ Setup
 
 ### ⚙️ Requirements
 
-- foo >= bar
-- bazz
+- bash, fzf
 
 ### 💻 Installation
 
 ```bash
 git clone https://github.com/2kabhishek/dexe
 cd dexe
-# Link mkrepo to a directory that's in PATH (~/.local/bin here)
+# Link dexe to a directory that's in PATH (~/.local/bin here)
 ln -sfnv "$PWD/dexe.sh" ~/.local/bin/dexe
 ```
 
 ## 🚀 Usage
 
 ```bash
-USAGE:
+dexe: Execute and Launch CLI Tools 🚀✨
 
-dexe <REQUIRED> [OPTIONAL]
+Usage: dexe [optional pass-through args]
 
-Arguments:
-    REQUIRED: Required Argument
-    OPTIONAL: Optional Argument
+dexe README.md -- Run selected command with README.md
+dexe --verbose -- Run selected command with --verbose flag
 
-Example:
-    dexe
+dexe -h, --help -- Display this help menu
+```
+
+### Integrations
+
+- neovim:
+
+I use `dexe` mapped to <key>Leader</key> <key>t d</key> in my [neovim which-key config](https://github.com/2kabhishek/nvim2k/blob/main/lua/plugins/tools/which-key.lua) with [termim.nvim](https://github.com/2kabhishek/termim.nvim)
+
+You can add it using this in your which-key config:
+
+```lua
+    t = {
+        name = 'Terminal',
+        d = { '<cmd>Sterm dexe<cr>', 'Exe Launcher' },
+    },
+```
+
+- tmux:
+
+`dexe` is mapped to <kbd>Alt</kbd> + <kbd>d</kbd> using [tmux-tilit](https://github.com/2kabhishek/tmux-tilit)
+
+You can add it using this in your `tmux.conf`:
+
+```bash
+bind-key -n M-d run-shell "dexe"
+```
+
+- zsh:
+
+`dexe` is mapped to <kbd>Ctrl</kbd> + <kbd>d</kbd> in my [zsh config](https://github.com/2KAbhishek/dots2k/blob/main/config/zsh/keys.zsh)
+
+You can add it using this in your `.zshrc`
+
+```bash
+bindkey -s "^d" ' dexe^M ^M'
 ```
 
 ## 🏗️ What's Next
 
-Planning to add `<feature/module>`.
-
-### ✅ To-Do
-
-- [x] Setup repo
-- [ ] Think real hard
-- [ ] Start typing
+- [ ] Add support for defined aliases and functions
 
 ## 🧑‍💻 Behind The Code
 
 ### 🌈 Inspiration
 
-dexe was inspired by `<reason/idea>`.
+Needed a quick way to run tools that runs both on macOS and Linux.
 
 ### 💡 Challenges/Learnings
 
@@ -116,4 +142,3 @@ dexe was inspired by `<reason/idea>`.
 | <a href="https://2kabhishek.github.io/projects" target="_blank">Other Projects </a>
 
 </div>
-
