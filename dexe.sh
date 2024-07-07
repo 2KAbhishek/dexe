@@ -1,7 +1,7 @@
 #!/bin/bash
 # shellcheck disable=SC2086
 
-BORDER_LABEL=" exer: select executable "
+BORDER_LABEL=" dexe: the exe launcher "
 
 display_help() {
     cat <<EOF
