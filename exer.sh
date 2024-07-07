@@ -1,4 +1,5 @@
 #!/bin/bash
+# shellcheck disable=SC2086
 
 BORDER_LABEL=" exer: select executable "
 
@@ -18,9 +19,14 @@ check_command() {
 }
 
 select_executable() {
-    IFS=: read -ra DIRS <<< "$PATH"
-    find "${DIRS[@]}" -maxdepth 1 -perm +111 -type f -or -type l 2>/dev/null | \
-    awk -F/ '{print $NF}' | sort -u | fzf --border-label "$BORDER_LABEL" --preview "{} --help"
+    exe_check="-executable"
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        exe_check="-perm +111"
+    fi
+
+    IFS=: read -ra DIRS <<<"$PATH"
+    find "${DIRS[@]}" -maxdepth 1 $exe_check -type f -or -type l 2>/dev/null |
+        awk -F/ '{print $NF}' | sort -u | fzf --border-label "$BORDER_LABEL" --preview "{} --help"
 }
 
 main() {
