@@ -5,9 +5,14 @@ BORDER_LABEL=" dexe: the exe launcher "
 
 display_help() {
     cat <<EOF
-exer: Execute and Launch CLI Tools 🚀✨
+dexe: Execute and Launch CLI Tools 🚀✨
 
-Usage: exer
+Usage: dexe [optional pass-through args]
+
+dexe README.md -- Run selected command with README.md
+dexe --verbose -- Run selected command with --verbose flag
+
+dexe -h, --help -- Display this help menu
 EOF
 }
 
