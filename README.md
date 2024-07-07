@@ -115,8 +115,8 @@ Needed a quick way to run tools that runs both on macOS and Linux.
 
 ### 💡 Challenges/Learnings
 
-- The main challenges were `<issue/difficulty>`
-- I learned about `<learning/accomplishment>`
+- Writing pipes to parse all of the executables in PATH
+- Figuring out that configured aliases and functions only show up in interactive mode
 
 ### 🧰 Tooling
 
