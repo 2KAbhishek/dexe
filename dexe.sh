@@ -1,5 +1,6 @@
 #!/bin/bash
 # shellcheck disable=SC2086
+# shellcheck disable=SC2294
 
 BORDER_LABEL=" dexe: the exe launcher "
 
@@ -23,19 +24,30 @@ check_command() {
     fi
 }
 
+ensure_interactive_shell() {
+    if [[ $- != *i* ]]; then
+        exec bash -i "$0" "$@"
+    fi
+}
+
 select_executable() {
-    exe_check="-executable"
+    local exe_check="-executable"
     if [[ "$OSTYPE" == "darwin"* ]]; then
         exe_check="-perm +111"
     fi
 
     IFS=: read -ra DIRS <<<"$PATH"
-    find "${DIRS[@]}" -maxdepth 1 $exe_check -type f -or -type l 2>/dev/null |
-        awk -F/ '{print $NF}' | sort -u | fzf --border-label "$BORDER_LABEL" --preview "{} --help"
+    exe_list=$(find "${DIRS[@]}" -maxdepth 1 $exe_check -type f -or -type l 2>/dev/null | awk -F/ '{print $NF}')
+    alias_list=$(compgen -a)
+    function_list=$(compgen -A function)
+    all_items=$(sort -u <(echo -e "$exe_list\n$alias_list\n$function_list"))
+
+    echo "$all_items" | fzf --border-label "$BORDER_LABEL" --preview "{} --help || type {}"
 }
 
 main() {
     check_command "fzf"
+    ensure_interactive_shell "$@"
     if [[ "$1" == "-h" || "$1" == "--help" ]]; then
         display_help
         exit 0
@@ -43,7 +55,11 @@ main() {
 
     executable=$(select_executable)
     if [ -n "$executable" ]; then
-        "$executable" "$@"
+        if [[ $(type -t "$executable") == "alias" ]]; then
+            eval "$executable" "$@"
+        else
+            "$executable" "$@"
+        fi
     else
         exit 1
     fi
