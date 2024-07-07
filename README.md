@@ -30,11 +30,13 @@
 
 </div>
 
-dexe, pronounced `the E X E or dexy` is a \*Nix CLI launcher that helps you quickly run shell executables.
+dexe, pronounced `the E X E or dexy` is a nix CLI launcher that helps you run any executable, alias, and function on your system.
 
 ## ✨ Features
 
 - List all executables in yqur PATH
+- List all aliases and functions defined in your shell
+- Powerful fuzzy finding with fzf
 - Glance over help info for any available executable
 - Easily integrates with neovim, shell, tmux and other tools
 
@@ -103,7 +105,7 @@ bindkey -s "^d" ' dexe^M ^M'
 
 ## 🏗️ What's Next
 
-- [ ] Add support for defined aliases and functions
+You tell me!
 
 ## 🧑‍💻 Behind The Code
 
