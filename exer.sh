@@ -38,7 +38,7 @@ main() {
 
     executable=$(select_executable)
     if [ -n "$executable" ]; then
-        "$executable"
+        "$executable" "$@"
     else
         exit 1
     fi
