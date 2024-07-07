@@ -18,15 +18,9 @@ check_command() {
 }
 
 select_executable() {
-    if [[ "$OSTYPE" == "darwin"* ]]; then
-        for dir in $(echo "$PATH" | tr ":" "\n"); do
-            find -L "$dir" -maxdepth 1 -type f -perm +111 2>/dev/null
-        done | awk -F/ '{print $NF}' | sort -u | fzf --border-label "$BORDER_LABEL"
-    else
-        for dir in $(echo "$PATH" | tr ":" "\n"); do
-            find -L "$dir" -maxdepth 1 -mindepth 1 -executable 2>/dev/null
-        done | awk -F/ '{print $NF}' | sort -u | fzf --border-label "$BORDER_LABEL"
-    fi
+    IFS=: read -ra DIRS <<< "$PATH"
+    find "${DIRS[@]}" -maxdepth 1 -perm +111 -type f -or -type l 2>/dev/null | \
+    awk -F/ '{print $NF}' | sort -u | fzf --border-label "$BORDER_LABEL" --preview "{} --help"
 }
 
 main() {
