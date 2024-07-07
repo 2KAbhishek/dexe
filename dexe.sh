@@ -42,7 +42,8 @@ select_executable() {
     function_list=$(compgen -A function)
     all_items=$(sort -u <(echo -e "$exe_list\n$alias_list\n$function_list"))
 
-    echo "$all_items" | fzf --border-label "$BORDER_LABEL" --preview "{} --help || type {}"
+    echo "$all_items" | fzf --border-label "$BORDER_LABEL" \
+        --preview='( {1} --help || command -v {1} ) 2> /dev/null'
 }
 
 main() {
@@ -55,15 +56,11 @@ main() {
 
     executable=$(select_executable)
     if [ -n "$executable" ]; then
-        if [[ $(type -t "$executable") == "alias" ]]; then
-            eval "$executable" "$@"
-        else
-            "$executable" "$@"
-        fi
+        eval "$executable" "$@"
     else
         exit 1
     fi
-    read -r -p "Press any key to continue..."
+    read -r -p "Press enter to continue..."
 }
 
 main "$@"
