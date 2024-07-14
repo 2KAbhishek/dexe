@@ -10,10 +10,11 @@ dexe: Execute and Launch CLI Tools 🚀✨
 
 Usage: dexe [optional pass-through args]
 
+dexe --wait-before-exit -- Wait for input before exiting
+dexe -h, --help -- Display this help menu
+
 dexe README.md -- Run selected command with README.md
 dexe --verbose -- Run selected command with --verbose flag
-
-dexe -h, --help -- Display this help menu
 EOF
 }
 
@@ -49,18 +50,30 @@ select_executable() {
 main() {
     check_command "fzf"
     ensure_interactive_shell "$@"
-    if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+
+    case "$1" in
+    "-h" | "--help")
         display_help
         exit 0
-    fi
+        ;;
+    "--wait-before-exit")
+        WAIT_BEFORE_EXIT=1
+        shift
+        PASSTHROUG_ARGS="$@"
+        ;;
+    *) PASSTHROUG_ARGS="$@" ;;
+    esac
 
     executable=$(select_executable)
     if [ -n "$executable" ]; then
-        eval "$executable" "$@"
+        eval "$executable" "$PASSTHROUG_ARGS"
     else
         exit 1
     fi
-    read -r -p "Press enter to continue..."
+
+    if [[ -n "$WAIT_BEFORE_EXIT" ]]; then
+        read -r -p "Press enter to continue..."
+    fi
 }
 
 main "$@"

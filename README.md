@@ -62,11 +62,14 @@ dexe: Execute and Launch CLI Tools 🚀✨
 
 Usage: dexe [optional pass-through args]
 
+dexe --wait-before-exit -- Wait for input before exiting
+dexe -h, --help -- Display this help menu
+
 dexe README.md -- Run selected command with README.md
 dexe --verbose -- Run selected command with --verbose flag
-
-dexe -h, --help -- Display this help menu
 ```
+
+Use the `--wait-before-exit` flag when you want to "hold" the session even after the command completes, useful in situations where the shell exits after command finishes.
 
 ### Integrations
 
@@ -80,6 +83,7 @@ You can add it using this in your which-key config:
     t = {
         name = 'Terminal',
         d = { '<cmd>Sterm dexe<cr>', 'Exe Launcher' },
+        w = { '<cmd>Sterm dexe --wait-before-exit<cr>', 'Exe Launcher, Wait' },
     },
 ```
 
